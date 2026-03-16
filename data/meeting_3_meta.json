@@ -1,0 +1,134 @@
+{
+  "filename": "124257_2026년도 제3회 국무회의 회의록 (260127).pdf",
+  "source_type": "pdf",
+  "meeting_info": {
+    "meeting_number": 3,
+    "year": 2026,
+    "date": "2026-01-27",
+    "location": "청와대본관세종실",
+    "duration": "10:30 ~ 12:27"
+  },
+  "attendees": [
+    {
+      "name": "구윤철",
+      "position": "부총리겸재정경제부장관",
+      "ministry": "부총리겸재정경제부장관",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "배경훈",
+      "position": "부총리겸과학기술정보통신부장관",
+      "ministry": "과학기술정보통신부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "윤호중",
+      "position": "행정안전부장관",
+      "ministry": "행정안전부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "권오을",
+      "position": "국가보훈부장관",
+      "ministry": "국가보훈부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "최휘영",
+      "position": "문화체육관광부장관",
+      "ministry": "문화체육관광부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "송미령",
+      "position": "농림축산식품부장관",
+      "ministry": "농림축산식품부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김정관",
+      "position": "산업통상부장관",
+      "ministry": "산업통상자원부",
+      "present": false,
+      "delegate": true
+    },
+    {
+      "name": "정은경",
+      "position": "보건복지부장관",
+      "ministry": "보건복지부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김성환",
+      "position": "기후에너지환경부장관",
+      "ministry": "기후에너지환경부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김영훈",
+      "position": "고용노동부장관",
+      "ministry": "고용노동부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "원민경",
+      "position": "성평등가족부장관",
+      "ministry": "성평등가족부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김윤덕",
+      "position": "국토교통부장관",
+      "ministry": "국토교통부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "한성숙",
+      "position": "중소벤처기업부장관",
+      "ministry": "중소벤처기업부",
+      "present": true,
+      "delegate": false
+    }
+  ],
+  "agendas": {
+    "total": 0,
+    "categories": {
+      "법률공포안": 7,
+      "대통령령안": 9,
+      "일반안": 2,
+      "보고안": 4,
+      "부처보고": 2
+    },
+    "items": []
+  },
+  "statements": [
+    {
+      "speaker": "대통령",
+      "type": "모두말씀",
+      "content": "많은국민께서기대하시는것처럼경제상황이조금씩개선되고있음. 코스피·코스\n닥을포함해서자본시장도또주식시장도정상화의길을제대로가고있는것같음. 오랜시간홀대받은우리자본시장이미래혁신산업성장, 건전한국민자산증식을\n위한든든한토대로거듭나고있음. 자본시장정상화발목을잡는여러가지불합\n리한제도들도계속해서신속히개선해나감으로써생산적금융으로의전환을한층\n가속화해야되겠음. 주식시장의흐름이경제체질의구조적변화로이어지려면국민의삶과직결된\n실물경제의안정적인성장도뒷받침돼야되겠음."
+    },
+    {
+      "speaker": "부총리겸재정경제부장관구윤철",
+      "type": "부처보고",
+      "content": "부총리겸재정경제부장관구윤철"
+    },
+    {
+      "speaker": "공정거래위원회위원장주병기",
+      "type": "부처보고",
+      "content": "공정거래위원회위원장주병기"
+    }
+  ],
+  "text_length": 33361,
+  "total_pages": 26
+}

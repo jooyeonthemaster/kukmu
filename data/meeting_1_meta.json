@@ -1,0 +1,128 @@
+{
+  "filename": "124040_2026년도 제1회 국무회의 회의록 (260113).pdf",
+  "source_type": "pdf",
+  "meeting_info": {
+    "meeting_number": 1,
+    "year": 2026,
+    "date": "2026-01-13",
+    "location": "정부서울⇔세종청사국무회의실(영상)",
+    "duration": "09:00 ~ 09:27"
+  },
+  "attendees": [
+    {
+      "name": "구윤철",
+      "position": "부총리겸재정경제부장관",
+      "ministry": "부총리겸재정경제부장관",
+      "present": false,
+      "delegate": true
+    },
+    {
+      "name": "배경훈",
+      "position": "부총리겸과학기술정보통신부장관",
+      "ministry": "과학기술정보통신부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "권오을",
+      "position": "국가보훈부장관",
+      "ministry": "국가보훈부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "윤호중",
+      "position": "행정안전부장관",
+      "ministry": "행정안전부",
+      "present": false,
+      "delegate": true
+    },
+    {
+      "name": "송미령",
+      "position": "농림축산식품부장관",
+      "ministry": "농림축산식품부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "최휘영",
+      "position": "문화체육관광부장관",
+      "ministry": "문화체육관광부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "정은경",
+      "position": "보건복지부장관",
+      "ministry": "보건복지부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김정관",
+      "position": "산업통상부장관",
+      "ministry": "산업통상자원부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김영훈",
+      "position": "고용노동부장관",
+      "ministry": "고용노동부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김성환",
+      "position": "기후에너지환경부장관",
+      "ministry": "기후에너지환경부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김윤덕",
+      "position": "국토교통부장관",
+      "ministry": "국토교통부",
+      "present": false,
+      "delegate": true
+    },
+    {
+      "name": "원민경",
+      "position": "성평등가족부장관",
+      "ministry": "성평등가족부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "한성숙",
+      "position": "중소벤처기업부장관",
+      "ministry": "중소벤처기업부",
+      "present": true,
+      "delegate": false
+    }
+  ],
+  "agendas": {
+    "total": 13,
+    "categories": {
+      "법률공포안": 2,
+      "대통령령안": 8,
+      "일반안": 2,
+      "부처보고": 1
+    },
+    "items": []
+  },
+  "statements": [
+    {
+      "speaker": "대통령",
+      "type": "모두말씀",
+      "content": "지난해국무회의는역대정부최초의투명한공개와활발한\n토론으로K-민주주의의시금석이되었음. 집권2년차국무회의는외청장까지\n참석을확대해서명실상부한집단지성의장으로진화해나갈것임. 국민주권정\n부는올해를‘지방주도성장’의확실한원년으로삼고, 지방이스스로성장할\n수있도록파격적인지원을아끼지않겠음. 대통령께서는지난주중국국빈방문에이어서오늘부터1박2일일정으로일\n본을방문하심. 중국·일본과의연쇄적정상외교는동북아의안정과우리경제의\n활로를모색하기위한‘국익중심실용외교’의강력한의지임."
+    },
+    {
+      "speaker": "보건복지부장관정은경",
+      "type": "부처보고",
+      "content": "보건복지부장관정은경"
+    }
+  ],
+  "text_length": 10856,
+  "total_pages": 7
+}

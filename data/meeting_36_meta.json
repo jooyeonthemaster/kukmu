@@ -1,0 +1,118 @@
+{
+  "filename": "121570_2025년도 제36회 국무회의 회의록 (250812).pdf",
+  "source_type": "pdf",
+  "meeting_info": {
+    "meeting_number": 36,
+    "year": 2025,
+    "date": "2025-08-12",
+    "location": "용산대통령실국무회의실",
+    "duration": "14:00 ~ 16:26"
+  },
+  "attendees": [
+    {
+      "name": "구윤철",
+      "position": "부총리겸기획재정부장관",
+      "ministry": "기획재정부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "배경훈",
+      "position": "과학기술정보통신부장관",
+      "ministry": "과학기술정보통신부",
+      "present": false,
+      "delegate": true
+    },
+    {
+      "name": "권오을",
+      "position": "국가보훈부장관",
+      "ministry": "국가보훈부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "윤호중",
+      "position": "행정안전부장관",
+      "ministry": "행정안전부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "송미령",
+      "position": "농림축산식품부장관",
+      "ministry": "농림축산식품부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "최휘영",
+      "position": "문화체육관광부장관",
+      "ministry": "문화체육관광부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "정은경",
+      "position": "보건복지부장관",
+      "ministry": "보건복지부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김정관",
+      "position": "산업통상자원부장관",
+      "ministry": "산업통상자원부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김영훈",
+      "position": "고용노동부장관",
+      "ministry": "고용노동부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김윤덕",
+      "position": "국토교통부장관",
+      "ministry": "국토교통부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "한성숙",
+      "position": "중소벤처기업부장관",
+      "ministry": "중소벤처기업부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "전재수",
+      "position": "해양수산부장관",
+      "ministry": "해양수산부",
+      "present": true,
+      "delegate": false
+    }
+  ],
+  "agendas": {
+    "total": 61,
+    "categories": {
+      "법률공포안": 22,
+      "전시법령안": 31,
+      "법률안": 1,
+      "대통령령안": 4,
+      "일반안": 1,
+      "부처보고": 2
+    },
+    "items": []
+  },
+  "statements": [
+    {
+      "speaker": "대통령",
+      "type": "모두말씀",
+      "content": "휴가를잠시갔다왔더니꽤오랫동안못뵀던것같음. 제가휴가동안에이런\n저런뉴스도보고하다보니까, 참안타까운일이계속벌어지는것이참그랬음. 교통사고사망도많이줄기는했는데\n여전히많은편이고, 각종재해, 사고사도상당히많은편에속하는것같고물론\n대형참사는말할것없지만, 일터에서죽어가는소위산업재해사망도여전히\n많은편임. 제가계속강조하고있는데, 사람목숨만큼중요한것이어디있겠는가? 다먹\n고살자고하는일인데, 사는문제에위협을받으면안됨. 특히살기위해갔\n던일터가죽음의장이되어서는절대로안됨."
+    }
+  ],
+  "text_length": 44391,
+  "total_pages": 35
+}

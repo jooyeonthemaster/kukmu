@@ -1,0 +1,300 @@
+{
+  "filename": "124255_2026년도 제2회 국무회의 회의록 (260120).pdf",
+  "source_type": "pdf",
+  "meeting_info": {
+    "meeting_number": 2,
+    "year": 2026,
+    "date": "2026-01-20",
+    "location": "청와대본관세종실",
+    "duration": "10:00 ~ 12:49"
+  },
+  "attendees": [
+    {
+      "name": "구윤철",
+      "position": "부총리겸재정경제부장관",
+      "ministry": "부총리겸재정경제부장관",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "배경훈",
+      "position": "부총리겸과학기술정보통신부장관",
+      "ministry": "과학기술정보통신부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "윤호중",
+      "position": "행정안전부장관",
+      "ministry": "행정안전부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "권오을",
+      "position": "국가보훈부장관",
+      "ministry": "국가보훈부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "최휘영",
+      "position": "문화체육관광부장관",
+      "ministry": "문화체육관광부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "송미령",
+      "position": "농림축산식품부장관",
+      "ministry": "농림축산식품부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김정관",
+      "position": "산업통상부장관",
+      "ministry": "산업통상자원부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "정은경",
+      "position": "보건복지부장관",
+      "ministry": "보건복지부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김성환",
+      "position": "기후에너지환경부장관",
+      "ministry": "기후에너지환경부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김영훈",
+      "position": "고용노동부장관",
+      "ministry": "고용노동부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "원민경",
+      "position": "성평등가족부장관",
+      "ministry": "성평등가족부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "김윤덕",
+      "position": "국토교통부장관",
+      "ministry": "국토교통부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "한성숙",
+      "position": "중소벤처기업부장관",
+      "ministry": "중소벤처기업부",
+      "present": true,
+      "delegate": false
+    }
+  ],
+  "agendas": {
+    "total": 0,
+    "categories": {
+      "법률공포안": 5,
+      "법률안": 9,
+      "대통령령안": 13,
+      "일반안": 3,
+      "부처보고": 5
+    },
+    "items": [
+      {
+        "title": "중국방문성과",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "일본방문성과",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "대통령님 방중‧방일 성과 및 후속조치 계획<관계부처 합동>",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "주요후속조치",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "한·중정상회의경제분야성과",
+        "ministry": "재정경제부",
+        "type": "부처보고"
+      },
+      {
+        "title": "한·중정상회의계기정부간MOU 성과[총14건]",
+        "ministry": "재정경제부",
+        "type": "부처보고"
+      },
+      {
+        "title": "한·중민관경제협력성과[기업간MOU 총32건]",
+        "ministry": "재정경제부",
+        "type": "부처보고"
+      },
+      {
+        "title": "現 청사관리현황",
+        "ministry": "국가보훈부",
+        "type": "부처보고"
+      },
+      {
+        "title": "대한민국 임시정부 상하이 청사 활용 확대 방안<관계부처 합동>",
+        "ministry": "국가보훈부",
+        "type": "부처보고"
+      },
+      {
+        "title": "29), 백범탄신150주년등주요",
+        "ministry": "국가보훈부",
+        "type": "부처보고"
+      },
+      {
+        "title": "중측주요입장",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "향후대응방안",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "핵심이행계획",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "재외공관 역할 재창조 이행계획<관계부처 합동>",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "2026년 달라지는 민생 체감 정책 <관계부처 합동>",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "5억 원 <△1.5억 원>",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "2~11월)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "과학기술정보통신부",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "2.12.)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "7.)’이 국가기념일로 지정됩니다.",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "3만 명에게 기관별 월평균",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "12월 유치원 납입금은 전년 동월 대비",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "6% 감소, 보육시설 이용료는 4.5% 감소(국가데이터처, 소비자물가동향(’25.12.31))",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "30.), 일반 간행물과 동일하게 열람",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "1.21.)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "go.kr), AI 콜센터(1661-3119)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "1. 시행)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "3. 시행)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "5.12.)",
+        "ministry": "외교부",
+        "type": "부처보고"
+      },
+      {
+        "title": "3만 원 더 받습니다.인상",
+        "ministry": "외교부",
+        "type": "부처보고"
+      }
+    ]
+  },
+  "statements": [
+    {
+      "speaker": "대통령",
+      "type": "모두말씀",
+      "content": "신년이되니챙겨야할것도많아서아마다들어려우실\n것임. 우리가보통부‧처라고하는데, 부에해당하는곳만회의를하고처도회\n의를하는지또한장관급에해당하는각위원회도참석하는지, 안하는지애매함. 특히부‧처‧청이정부핵심조직구조인데, 청은대개참석하지않아서따로업무\n지시하는경우들이있음. 원래외청은기본적으로부‧처로부터약간의독립성이\n있고관계가조금애매한데, 어쨌든국정에관한논의는헌법과법률에의한정부\n핵심구조라고할수있는부‧처‧청이다함께하는것으로하겠음. 국정이어떻게\n흘러가는지서로다이해하고공감을해야각부‧처‧청업무의방향성이정해질\n수있어서함께하자고했음."
+    },
+    {
+      "speaker": "외교부장관조현, 부총리겸재정경제부장관구윤철",
+      "type": "부처보고",
+      "content": "외교부장관조현, 부총리겸재정경제부장관구윤철"
+    },
+    {
+      "speaker": "국가보훈부장관권오을, 외교부장관조현",
+      "type": "부처보고",
+      "content": "국가보훈부장관권오을, 외교부장관조현"
+    },
+    {
+      "speaker": "외교부장관조현",
+      "type": "부처보고",
+      "content": "외교부장관조현"
+    },
+    {
+      "speaker": "부총리겸재정경제부장관구윤철",
+      "type": "부처보고",
+      "content": "부총리겸재정경제부장관구윤철"
+    },
+    {
+      "speaker": "문화체육관광부장관최휘영",
+      "type": "부처보고",
+      "content": "문화체육관광부장관최휘영"
+    }
+  ],
+  "text_length": 80656,
+  "total_pages": 58
+}

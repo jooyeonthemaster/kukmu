@@ -1,0 +1,97 @@
+{
+  "filename": "119994_2025년도 제30회 국무회의 회의록 (250708).pdf",
+  "source_type": "pdf",
+  "meeting_info": {
+    "meeting_number": 30,
+    "year": 2025,
+    "date": "2025-07-08",
+    "location": "용산대통령실국무회의실",
+    "duration": "10:00 ~ 11:10"
+  },
+  "attendees": [
+    {
+      "name": "이주호",
+      "position": "부총리겸교육부장관",
+      "ministry": "교육부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "유상임",
+      "position": "과학기술정보통신부장관",
+      "ministry": "과학기술정보통신부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "강정애",
+      "position": "국가보훈부장관",
+      "ministry": "국가보훈부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "송미령",
+      "position": "농림축산식품부장관",
+      "ministry": "농림축산식품부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "유인촌",
+      "position": "문화체육관광부장관",
+      "ministry": "문화체육관광부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "조규홍",
+      "position": "보건복지부장관",
+      "ministry": "보건복지부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "안덕근",
+      "position": "산업통상자원부장관",
+      "ministry": "산업통상자원부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "박상우",
+      "position": "국토교통부장관",
+      "ministry": "국토교통부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "오영주",
+      "position": "중소벤처기업부장관",
+      "ministry": "중소벤처기업부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "강도형",
+      "position": "해양수산부장관",
+      "ministry": "해양수산부",
+      "present": true,
+      "delegate": false
+    }
+  ],
+  "agendas": {
+    "total": 9,
+    "categories": {},
+    "items": []
+  },
+  "statements": [
+    {
+      "speaker": "대통령",
+      "type": "모두말씀",
+      "content": "요즘은날짜가하루단위가아니라일주일단위로가는것\n같아서여러분보는시간이“어제봤는데또보나?” 이런생각이들때가많음. 여야‘민생공약협의체’ 구성이되고있는모양임. 우리가주권자를대리해서국\n정을운영하는이유는우리국민들의삶에실질적인변화, 더나은변화를만드는\n것임. 그런측면에서국회와정부는서로서있는지점은달라도국민의더나은\n삶이라고하는공통의목표를향해나아가는동반자임. 여야가어제대선공통공약을추진하기위한민생공약협의체구성을위한실무\n협의진행을합의했다고함."
+    }
+  ],
+  "text_length": 15389,
+  "total_pages": 12
+}

@@ -1,0 +1,100 @@
+{
+  "filename": "120419_2025년도 제31회 국무회의 회의록 (250715).pdf",
+  "source_type": "pdf",
+  "meeting_info": {
+    "meeting_number": 31,
+    "year": 2025,
+    "date": "2025-07-15",
+    "location": "용산대통령실국무회의실",
+    "duration": "10:00 ~ 11:58"
+  },
+  "attendees": [
+    {
+      "name": "이주호",
+      "position": "부총리겸교육부장관",
+      "ministry": "교육부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "유상임",
+      "position": "과학기술정보통신부장관",
+      "ministry": "과학기술정보통신부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "강정애",
+      "position": "국가보훈부장관",
+      "ministry": "국가보훈부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "송미령",
+      "position": "농림축산식품부장관",
+      "ministry": "농림축산식품부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "유인촌",
+      "position": "문화체육관광부장관",
+      "ministry": "문화체육관광부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "조규홍",
+      "position": "보건복지부장관",
+      "ministry": "보건복지부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "안덕근",
+      "position": "산업통상자원부장관",
+      "ministry": "산업통상자원부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "박상우",
+      "position": "국토교통부장관",
+      "ministry": "국토교통부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "오영주",
+      "position": "중소벤처기업부장관",
+      "ministry": "중소벤처기업부",
+      "present": true,
+      "delegate": false
+    },
+    {
+      "name": "강도형",
+      "position": "해양수산부장관",
+      "ministry": "해양수산부",
+      "present": true,
+      "delegate": false
+    }
+  ],
+  "agendas": {
+    "total": 30,
+    "categories": {
+      "법률공포안": 16,
+      "대통령령안": 14
+    },
+    "items": []
+  },
+  "statements": [
+    {
+      "speaker": "대통령",
+      "type": "모두말씀",
+      "content": "의대생들이다행스럽게학업에복귀하기로\n했다고함. 교육당국이필요한후속조치를\n신속하게추진해주기바람. 그리고의대생여러분도우리국민들의건강과생\n명을책임지는예비의료인으로서의사회적책임이무엇인가에대해서좀더\n깊이생각해주시기를당부드림. 관련부서들은공공재인지역의료, 필수의료,\n응급의료공백을면밀하게점검하고보완대책을서둘러서마련해주기바람. 언제나중요한데, 우리사회에는참으로대화가많이부족함."
+    }
+  ],
+  "text_length": 35770,
+  "total_pages": 29
+}
