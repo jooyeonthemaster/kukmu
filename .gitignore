@@ -39,3 +39,10 @@ next-env.d.ts
 
 # nul (Windows artifact)
 nul
+
+.vercel
+.mcp.json
+*.pdf
+.claude/_claude_proj_backup/
+package.json.bak
+trigger/collect-*.ts

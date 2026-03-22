@@ -168,6 +168,19 @@
   border-top-color: rgba(13, 18, 32, 0.95) !important;
 }
 
+/* Transparent tooltip wrapper for map labels */
+.district-name-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+.district-name-tooltip::before {
+  display: none !important;
+}
+
 .custom-dark-scrollbar::-webkit-scrollbar {
   width: 4px;
 }

@@ -108,7 +108,7 @@ function KanbanColumn({
   return (
     <div
       className={cn(
-        "flex w-[280px] shrink-0 flex-col rounded-xl border border-border/40",
+        "flex w-[260px] md:w-[280px] shrink-0 flex-col rounded-xl border border-border/40",
         COLUMN_BG[status]
       )}
     >
@@ -150,34 +150,34 @@ export default function WorkspacePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-[1400px] px-6 py-8">
+      <div className="mx-auto max-w-[1400px] px-4 py-6 md:px-6 md:py-8">
         {/* Page header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2.5 mb-1.5">
-            <Columns3 className="h-5 w-5 text-primary" />
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+        <div className="mb-6 md:mb-8">
+          <div className="flex items-center gap-2 mb-1.5">
+            <Columns3 className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
               안건 워크스페이스
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs md:text-sm text-muted-foreground">
             국무회의 안건을 단계별로 추적하고 진행 상황을 한눈에 확인합니다
           </p>
         </div>
 
         {/* Status pipeline indicator */}
-        <div className="mb-6 flex items-center gap-1 text-xs text-muted-foreground">
+        <div className="mb-4 md:mb-6 flex flex-wrap items-center gap-1.5 md:gap-1 text-[10px] md:text-xs text-muted-foreground">
           {COLUMN_ORDER.map((status, i) => (
-            <div key={status} className="flex items-center gap-1">
+            <div key={status} className="flex items-center gap-1 md:gap-1.5">
               <span
                 className={cn(
-                  "rounded-md px-2 py-1 font-medium",
+                  "rounded-md px-1.5 md:px-2 py-0.5 md:py-1 font-medium",
                   COLUMN_BADGE[status]
                 )}
               >
                 {STATUS_LABELS[status]}
               </span>
               {i < COLUMN_ORDER.length - 1 && (
-                <span className="text-border">→</span>
+                <span className="text-border text-xs">→</span>
               )}
             </div>
           ))}
@@ -185,7 +185,7 @@ export default function WorkspacePage() {
 
         {/* Kanban board */}
         <ScrollArea className="w-full">
-          <div className="flex gap-4 pb-4" style={{ minWidth: "1440px" }}>
+          <div className="flex gap-3 md:gap-4 pb-4 min-w-max">
             {COLUMN_ORDER.map((status) => (
               <KanbanColumn
                 key={status}

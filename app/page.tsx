@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ministers, agendas, kpiStats, hotTopics } from "@/lib/mock-data";
+import { ministers, agendas, hotTopics as mockHotTopics } from "@/lib/mock-data";
 import { STATUS_LABELS, STATUS_COLORS, PRIORITY_LABELS } from "@/lib/types";
 import { StatsCard } from "@/components/dashboard/stats-card";
 import { MinistryChart } from "@/components/dashboard/ministry-chart";
@@ -26,6 +26,50 @@ import {
   MapPin,
   ChevronRight,
 } from "lucide-react";
+import { createClient } from "@supabase/supabase-js";
+
+// Supabase server-side fetch
+async function getLiveStats() {
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    );
+
+    const [
+      { count: provinceCount },
+      { count: candidateCount },
+      { count: issueCount },
+      { count: articleCount },
+      { data: liveTopics },
+    ] = await Promise.all([
+      supabase.from("provinces").select("id", { count: "exact", head: true }),
+      supabase.from("candidates").select("id", { count: "exact", head: true }),
+      supabase.from("issues").select("id", { count: "exact", head: true }),
+      supabase.from("raw_articles").select("id", { count: "exact", head: true }),
+      supabase.from("hot_topics").select("*").order("count", { ascending: false }).limit(10),
+    ]);
+
+    return {
+      kpiStats: [
+        { label: "추적 시도", value: provinceCount ?? 0, change: 0, changeLabel: "전국 17개 시도", icon: "map" },
+        { label: "수집 후보자", value: candidateCount ?? 0, change: 0, changeLabel: "실시간 수집", icon: "users" },
+        { label: "발견 이슈", value: issueCount ?? 0, change: 0, changeLabel: "지역 이슈", icon: "alert" },
+        { label: "수집 뉴스", value: articleCount ?? 0, change: 0, changeLabel: "원본 기사", icon: "newspaper" },
+      ],
+      hotTopics: (liveTopics ?? []).map((t) => ({
+        id: t.id,
+        keyword: t.keyword,
+        count: t.count ?? 0,
+        trend: (t.trend === "up" || t.trend === "new" ? "rising" : t.trend === "down" ? "falling" : "steady") as "rising" | "falling" | "steady",
+        relatedMinistry: t.related_ministry ?? "",
+        category: t.category ?? "",
+      })),
+    };
+  } catch {
+    return null;
+  }
+}
 
 // Prepare chart data
 const chartData = ministers.map((m) => ({
@@ -41,9 +85,6 @@ const topMinisters = [...ministers]
 // Recent agendas (first 8)
 const recentAgendas = agendas.slice(0, 8);
 
-// Top 8 hot topics
-const topHotTopics = hotTopics.slice(0, 8);
-
 const trendIcons = {
   up: <TrendingUp className="h-3.5 w-3.5 text-success" />,
   down: <TrendingDown className="h-3.5 w-3.5 text-destructive" />,
@@ -56,9 +97,20 @@ const topicTrendIcons = {
   steady: <Minus className="h-3.5 w-3.5 text-muted-foreground" />,
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  // Fetch live stats from Supabase (server-side)
+  const live = await getLiveStats();
+  const kpiStats = live?.kpiStats ?? [
+    { label: "추적 시도", value: 17, change: 0, changeLabel: "전국", icon: "map" },
+    { label: "수집 후보자", value: 0, change: 0, changeLabel: "-", icon: "users" },
+    { label: "발견 이슈", value: 0, change: 0, changeLabel: "-", icon: "alert" },
+    { label: "수집 뉴스", value: 0, change: 0, changeLabel: "-", icon: "newspaper" },
+  ];
+  const topHotTopics = (live?.hotTopics?.length ?? 0) > 0
+    ? live!.hotTopics.slice(0, 8)
+    : mockHotTopics.slice(0, 8);
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       {/* Page title */}
       <div>
         <h1 className="text-xl font-semibold tracking-tight">대시보드</h1>
@@ -105,7 +157,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Middle row - 60/40 split */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr]">
+      <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-[3fr_2fr]">
         {/* LEFT: Recent agenda feed */}
         <Card className="shadow-none">
           <CardHeader className="pb-3">
@@ -179,7 +231,7 @@ export default function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {topMinisters.map((minister) => (
                 <Link
                   key={minister.id}
@@ -230,7 +282,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Bottom row - 50/50 split */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
         {/* LEFT: Ministry fulfillment chart */}
         <Card className="shadow-none">
           <CardHeader className="pb-2">

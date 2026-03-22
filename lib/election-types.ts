@@ -105,3 +105,46 @@ export interface MapFeatureProperties {
   name_eng: string;
   [key: string]: unknown;
 }
+
+// ── Extended types for candidate detail & news ──
+
+export type TrendSignal = "rising" | "falling" | "stable" | "breaking";
+
+export interface ArticleCandidateMention {
+  candidateId: string;
+  candidateName: string;
+  party: PartyId;
+  mentionType: "direct_quote" | "mention" | "analysis";
+  context: string;
+  sentimentScore: number;
+}
+
+export interface ArticleSummary {
+  id: string;
+  title: string;
+  url: string;
+  source: string;
+  publishedAt: string;
+  sentiment?: string;
+  sentimentScore?: number;
+  summary?: string;
+  panseImpact?: string;
+  relevanceScore?: number;
+  trendSignal?: TrendSignal;
+  trendDetail?: string;
+  keywords?: string[];
+  candidateMentions?: ArticleCandidateMention[];
+}
+
+export interface CandidateDetail extends Candidate {
+  education?: string;
+  birthDate?: string;
+  job?: string;
+  address?: string;
+  bioSummary?: string;
+  slug?: string;
+  districtName?: string;
+  provinceName?: string;
+  relatedNews: ArticleSummary[];
+  sentimentTrend: { date: string; score: number; count: number }[];
+}

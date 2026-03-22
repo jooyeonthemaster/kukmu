@@ -6,9 +6,18 @@ import type { Map as LeafletMap, Layer, LeafletMouseEvent, PathOptions } from "l
 import type L from "leaflet";
 import * as topojson from "topojson-client";
 import type { Topology, GeometryCollection } from "topojson-specification";
-import { provinces, PROVINCE_CODE_MAP } from "@/lib/election-data";
-import { getDistrictsByProvince } from "@/lib/district-data";
+import { useElection } from "@/lib/election-context";
+import { PROVINCE_CODE_MAP } from "@/lib/election-data";
 import { PARTIES, type Province, type District } from "@/lib/election-types";
+
+/** Map our DB province codes (e.g. "seoul") to GeoJSON numeric codes (e.g. "11") */
+const DB_CODE_TO_GEO: Record<string, string> = {
+  seoul: "11", busan: "21", daegu: "22", incheon: "23",
+  gwangju: "24", daejeon: "25", ulsan: "26", sejong: "29",
+  gyeonggi: "31", gangwon: "32", chungbuk: "33", chungnam: "34",
+  jeonbuk: "35", jeonnam: "36", gyeongbuk: "37", gyeongnam: "38",
+  jeju: "39",
+};
 
 const PROVINCE_GEOJSON_URLS = [
   "https://raw.githubusercontent.com/southkorea/southkorea-maps/master/kostat/2018/json/skorea-provinces-2018-geo.json",
@@ -32,21 +41,9 @@ interface Props {
 // Cache municipality GeoJSON globally so it's only fetched once
 let municipalityCache: GeoJSON.FeatureCollection | null = null;
 
-function getProvinceFromFeature(feature: GeoJSON.Feature): Province | undefined {
-  const props = feature.properties || {};
-  const name = props.name || props.NAME_1 || props.NL_NAME_1 || props.CTP_KOR_NM || "";
-  const code = props.code || PROVINCE_CODE_MAP[name];
-  if (code) {
-    const found = provinces.find(p => p.code === String(code));
-    if (found) return found;
-  }
-  return provinces.find(p => {
-    const base = p.name.replace(/특별시|광역시|특별자치시|특별자치도|도/g, "");
-    return name.includes(base) && base.length > 0;
-  });
-}
-
 export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedProvince, selectedDistrict }: Props) {
+  const { provinces, getDistrictsByProvince } = useElection();
+
   const [provinceGeo, setProvinceGeo] = useState<GeoJSON.FeatureCollection | null>(null);
   const [districtGeo, setDistrictGeo] = useState<GeoJSON.FeatureCollection | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,8 +53,25 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
   const districtGeoRef = useRef<L.GeoJSON | null>(null);
   const selectedProvinceRef = useRef(selectedProvince);
   const selectedDistrictRef = useRef(selectedDistrict);
+  const provincesRef = useRef(provinces);
   selectedProvinceRef.current = selectedProvince;
   selectedDistrictRef.current = selectedDistrict;
+  provincesRef.current = provinces;
+
+  // Helper: find Province from GeoJSON feature
+  const getProvinceFromFeature = useCallback((feature: GeoJSON.Feature): Province | undefined => {
+    const props = feature.properties || {};
+    const name = props.name || props.NAME_1 || props.NL_NAME_1 || props.CTP_KOR_NM || "";
+    const code = props.code || PROVINCE_CODE_MAP[name];
+    if (code) {
+      const found = provincesRef.current.find(p => p.code === String(code));
+      if (found) return found;
+    }
+    return provincesRef.current.find(p => {
+      const base = p.name.replace(/특별시|광역시|특별자치시|특별자치도|도/g, "");
+      return name.includes(base) && base.length > 0;
+    });
+  }, []);
 
   // Load Leaflet CSS dynamically
   useEffect(() => {
@@ -100,14 +114,13 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
       .catch(() => { /* municipality data not critical */ });
   }, []);
 
-  // Auto-zoom when selectedProvince changes (e.g. from sidebar/overview click)
+  // Auto-zoom when selectedProvince changes
   useEffect(() => {
     if (!mapRef.current || !provinceGeo) return;
     if (!selectedProvince) {
       mapRef.current.setView(KOREA_CENTER, DEFAULT_ZOOM, { animate: true });
       return;
     }
-    // Find the province feature and zoom to its bounds
     const feature = provinceGeo.features.find(f => {
       const p = getProvinceFromFeature(f);
       return p?.code === selectedProvince.code;
@@ -117,16 +130,15 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
       const layer = L.geoJSON(feature);
       mapRef.current.fitBounds(layer.getBounds(), { padding: [50, 50], maxZoom: 11, animate: true });
     }
-  }, [selectedProvince, provinceGeo]);
+  }, [selectedProvince, provinceGeo, getProvinceFromFeature]);
 
-  // When province selected → filter municipality features for that province
+  // When province selected, filter municipality features
   useEffect(() => {
     if (!selectedProvince) {
       setDistrictGeo(null);
       return;
     }
     if (!municipalityCache) {
-      // Retry fetch if cache not ready
       fetch(MUNICIPALITY_TOPO_URL)
         .then(r => r.json())
         .then((topo: Topology) => {
@@ -142,17 +154,19 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
 
   function filterDistricts(provinceCode: string) {
     if (!municipalityCache) return;
+    // Convert DB code ("seoul") to GeoJSON numeric code ("11")
+    const geoCode = DB_CODE_TO_GEO[provinceCode] || provinceCode;
     const filtered: GeoJSON.FeatureCollection = {
       type: "FeatureCollection",
       features: municipalityCache.features.filter(f => {
         const code = f.properties?.code || "";
-        return String(code).startsWith(provinceCode);
+        return String(code).startsWith(geoCode);
       }),
     };
     setDistrictGeo(filtered);
   }
 
-  // ─── Province layer styling ───
+  // Province layer styling
   const styleProvince = useCallback((feature?: GeoJSON.Feature): PathOptions => {
     if (!feature) return {};
     const province = getProvinceFromFeature(feature);
@@ -167,52 +181,72 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
       fillOpacity: inDrillDown ? (isSelected ? 0.08 : 0.05) : 0.22,
       dashArray: isSelected ? "" : "2 4",
     };
-  }, []);
+  }, [getProvinceFromFeature]);
 
   const onEachProvince = useCallback((feature: GeoJSON.Feature, layer: Layer) => {
     const province = getProvinceFromFeature(feature);
     if (!province) return;
+
+    const shortName = province.name.replace(/광역시|특별자치시|특별자치도|도|특별시/g, '');
+    const labelHtml = `<div style="font-size:11px;font-weight:800;text-shadow:1px 1px 3px #000, -1px -1px 3px #000, 0 0 5px rgba(0,0,0,0.8);color:rgba(255,255,255,0.95); pointer-events:none;">${shortName}</div>`;
+
     const latestPoll = province.polls[0];
     const sorted = latestPoll ? [...latestPoll.results].sort((a, b) => b.percentage - a.percentage) : [];
     const pollHtml = sorted.slice(0, 3).map(r =>
       `<div style="display:flex;justify-content:space-between;gap:16px;font-size:11px;"><span style="color:${PARTIES[r.party].color}">${r.candidateName}(${PARTIES[r.party].name})</span><span>${r.percentage}%</span></div>`
     ).join("");
-    layer.bindTooltip(`
-      <div style="font-family:Pretendard,sans-serif;min-width:180px;">
+    const hoverHtml = `
+      <div class="election-tooltip" style="min-width:180px; transform:translateY(-10px); pointer-events:none;">
         <div style="font-size:14px;font-weight:700;margin-bottom:4px;">${province.name}</div>
         <div style="font-size:11px;color:${PARTIES[province.leadingParty].color};margin-bottom:6px;font-weight:600;">${PARTIES[province.leadingParty].name} 우세</div>
         ${pollHtml}
         ${latestPoll ? `<div style="font-size:10px;color:#888;margin-top:4px;">${latestPoll.source} ${latestPoll.date}</div>` : ""}
       </div>
-    `, { sticky: true, direction: "top", offset: [0, -10], className: "election-tooltip" });
+    `;
+
+    layer.bindTooltip(labelHtml, { permanent: true, direction: "center", className: "district-name-tooltip" });
+
     layer.on({
       mouseover: (e: LeafletMouseEvent) => {
-        if (selectedProvinceRef.current) return; // don't highlight in drill-down mode
         e.target.setStyle({ fillOpacity: 0.5, weight: 2.5, color: "rgba(200,220,255,0.5)" });
         e.target.bringToFront();
+        if (window.innerWidth > 768) {
+          e.target.setTooltipContent(hoverHtml);
+          const el = e.target.getTooltip()?.getElement();
+          if (el) el.style.zIndex = "1000";
+        }
       },
       mouseout: (e: LeafletMouseEvent) => {
         if (provinceGeoRef.current) provinceGeoRef.current.resetStyle(e.target);
+        if (window.innerWidth > 768 && !selectedProvinceRef.current) {
+          e.target.setTooltipContent(labelHtml);
+        }
       },
-      click: () => {
-        if (selectedProvinceRef.current) return; // already in drill-down
+      click: (e: LeafletMouseEvent) => {
         onDistrictSelect(null);
         onProvinceSelect(province);
+        e.target.setTooltipContent(labelHtml);
         if (mapRef.current && feature.geometry.type !== "Point") {
           const bounds = (layer as L.Polygon).getBounds();
           mapRef.current.fitBounds(bounds, { padding: [50, 50], maxZoom: 11 });
         }
       },
     });
-  }, [onProvinceSelect, onDistrictSelect]);
+  }, [onProvinceSelect, onDistrictSelect, getProvinceFromFeature]);
 
-  // ─── District layer styling ───
+  // Helper: match district by name (GeoJSON uses numeric codes, DB uses "seoul-gangnam")
+  const findDistrictByFeature = useCallback((feature: GeoJSON.Feature) => {
+    const provCode = selectedProvinceRef.current?.code || "";
+    const districtList = getDistrictsByProvince(provCode);
+    const featureName = feature.properties?.name || feature.properties?.NAME_2 || "";
+    return districtList.find(d => featureName.includes(d.name.replace(/시$|구$|군$/, "")) || d.name.includes(featureName.replace(/시$|구$|군$/, "")));
+  }, [getDistrictsByProvince]);
+
+  // District layer styling
   const styleDistrict = useCallback((feature?: GeoJSON.Feature): PathOptions => {
     if (!feature) return {};
-    const code = String(feature.properties?.code || "");
-    const districtData = getDistrictsByProvince(selectedProvinceRef.current?.code || "")
-      .find(d => d.code === code);
-    const isSelected = selectedDistrictRef.current?.code === code;
+    const districtData = findDistrictByFeature(feature);
+    const isSelected = districtData && selectedDistrictRef.current?.code === districtData.code;
     const party = districtData ? PARTIES[districtData.leadingParty] : null;
     return {
       fillColor: party?.color || "#555",
@@ -222,50 +256,71 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
       fillOpacity: isSelected ? 0.6 : 0.35,
       dashArray: "",
     };
-  }, []);
+  }, [findDistrictByFeature]);
 
   const onEachDistrict = useCallback((feature: GeoJSON.Feature, layer: Layer) => {
-    const code = String(feature.properties?.code || "");
     const name = feature.properties?.name || "";
-    const provCode = selectedProvinceRef.current?.code || "";
-    const districtData = getDistrictsByProvince(provCode).find(d => d.code === code);
+    const districtData = findDistrictByFeature(feature);
 
-    if (districtData) {
+    const shortName = name.replace(/시$|구$|군$/, '');
+    const labelHtml = `<div style="font-size:10px;font-weight:700;text-shadow:1px 1px 2px #000, -1px -1px 2px #000, 0 0 4px rgba(0,0,0,0.9);color:rgba(255,255,255,0.9); pointer-events:none;">${shortName}</div>`;
+
+    let hoverHtml = "";
+    if (districtData && districtData.candidates.length >= 2) {
       const c1 = districtData.candidates[0];
       const c2 = districtData.candidates[1];
-      layer.bindTooltip(`
-        <div style="font-family:Pretendard,sans-serif;min-width:160px;">
+      hoverHtml = `
+        <div class="election-tooltip" style="min-width:160px; transform:translateY(-10px); pointer-events:none;">
           <div style="font-size:13px;font-weight:700;margin-bottom:3px;">${name}</div>
           <div style="font-size:11px;color:${PARTIES[districtData.leadingParty].color};margin-bottom:5px;font-weight:600;">${PARTIES[districtData.leadingParty].name} 우세</div>
-          <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:${PARTIES[c1.party].color}">${c1.name}</span><span>${c1.percentage}%</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:${PARTIES[c2.party].color}">${c2.name}</span><span>${c2.percentage}%</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:${PARTIES[c1.party].color}">${c1.name}</span><span>${c1.percentage > 0 ? c1.percentage + "%" : PARTIES[c1.party].name}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:${PARTIES[c2.party].color}">${c2.name}</span><span>${c2.percentage > 0 ? c2.percentage + "%" : PARTIES[c2.party].name}</span></div>
           <div style="font-size:10px;color:#666;margin-top:4px;">인구 ${(districtData.population / 10000).toFixed(1)}만</div>
         </div>
-      `, { sticky: true, direction: "top", offset: [0, -10], className: "election-tooltip" });
+      `;
+    } else if (districtData && districtData.candidates.length === 1) {
+      const c1 = districtData.candidates[0];
+      hoverHtml = `
+        <div class="election-tooltip" style="min-width:160px; transform:translateY(-10px); pointer-events:none;">
+          <div style="font-size:13px;font-weight:700;margin-bottom:3px;">${name}</div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:${PARTIES[c1.party].color}">${c1.name}</span><span>${PARTIES[c1.party].name}</span></div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">인구 ${(districtData.population / 10000).toFixed(1)}만</div>
+        </div>
+      `;
     } else {
-      layer.bindTooltip(`<div style="font-family:Pretendard,sans-serif;"><div style="font-size:13px;font-weight:700;">${name}</div><div style="font-size:10px;color:#888;">데이터 준비 중</div></div>`,
-        { sticky: true, direction: "top", offset: [0, -10], className: "election-tooltip" });
+      hoverHtml = `<div class="election-tooltip" style="transform:translateY(-10px); pointer-events:none;"><div style="font-size:13px;font-weight:700;">${name}</div><div style="font-size:10px;color:#888;">데이터 준비 중</div></div>`;
     }
+
+    layer.bindTooltip(labelHtml, { permanent: true, direction: "center", className: "district-name-tooltip" });
 
     layer.on({
       mouseover: (e: LeafletMouseEvent) => {
         e.target.setStyle({ fillOpacity: 0.6, weight: 2.5, color: "rgba(255,255,255,0.6)" });
         e.target.bringToFront();
+        if (window.innerWidth > 768) {
+          e.target.setTooltipContent(hoverHtml);
+          const el = e.target.getTooltip()?.getElement();
+          if (el) el.style.zIndex = "1000";
+        }
       },
       mouseout: (e: LeafletMouseEvent) => {
         if (districtGeoRef.current) districtGeoRef.current.resetStyle(e.target);
+        if (window.innerWidth > 768) {
+          e.target.setTooltipContent(labelHtml);
+        }
       },
-      click: () => {
+      click: (e: LeafletMouseEvent) => {
         if (districtData) {
           onDistrictSelect(districtData);
         }
+        e.target.setTooltipContent(labelHtml);
         if (mapRef.current && feature.geometry.type !== "Point") {
           const bounds = (layer as L.Polygon).getBounds();
           mapRef.current.fitBounds(bounds, { padding: [60, 60], maxZoom: 13 });
         }
       },
     });
-  }, [onDistrictSelect]);
+  }, [onDistrictSelect, findDistrictByFeature]);
 
   if (loading) {
     return (
@@ -308,7 +363,7 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
         {/* Province boundaries (always rendered) */}
         {provinceGeo && (
           <GeoJSON
-            key={`prov-${selectedProvince?.code || "none"}`}
+            key={`prov-${selectedProvince?.code || "none"}-${provinces.length}`}
             data={provinceGeo}
             style={styleProvince}
             onEachFeature={onEachProvince}
@@ -319,7 +374,7 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
         {/* District boundaries (rendered when province selected) */}
         {districtGeo && selectedProvince && (
           <GeoJSON
-            key={`dist-${selectedProvince.code}-${selectedDistrict?.code || "none"}`}
+            key={`dist-${selectedProvince.code}-${selectedDistrict?.code || "none"}-${getDistrictsByProvince(selectedProvince.code).length}`}
             data={districtGeo}
             style={styleDistrict}
             onEachFeature={onEachDistrict}
@@ -329,13 +384,13 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
       </MapContainer>
 
       {/* Legend */}
-      <div className="absolute bottom-4 right-4 z-[1000] rounded-lg bg-[#0d1220]/90 backdrop-blur border border-white/10 p-3">
-        <div className="text-[10px] font-semibold text-white/50 uppercase tracking-wider mb-2">정당별 우세 지역</div>
-        <div className="flex flex-col gap-1.5">
+      <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-[1000] rounded-lg bg-[#0d1220]/90 backdrop-blur border border-white/10 p-2 md:p-3 shadow-xl pointer-events-none">
+        <div className="hidden md:block text-[10px] font-semibold text-white/50 uppercase tracking-wider mb-2">정당별 우세 지역</div>
+        <div className="flex flex-col gap-1 md:gap-1.5">
           {(["ppp", "dp", "rkp"] as const).map(id => (
-            <div key={id} className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm" style={{ background: PARTIES[id].color, opacity: 0.7 }} />
-              <span className="text-[11px] text-white/70">{PARTIES[id].name}</span>
+            <div key={id} className="flex items-center gap-1 md:gap-2">
+              <div className="h-2 w-2 md:h-3 md:w-3 rounded-sm shrink-0" style={{ background: PARTIES[id].color, opacity: 0.7 }} />
+              <span className="text-[9px] md:text-[11px] text-white/70">{PARTIES[id].name}</span>
             </div>
           ))}
         </div>
@@ -343,17 +398,18 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
 
       {/* Drill-down level indicator & back buttons */}
       {selectedProvince && (
-        <div className="absolute top-4 left-4 z-[1000] flex flex-col gap-2">
+        <div className="absolute top-10 md:top-4 left-2 md:left-4 z-[1000] flex flex-col md:flex-col gap-1.5 md:gap-2 shadow-lg">
           <button
             onClick={() => {
               onDistrictSelect(null);
               onProvinceSelect(null);
               mapRef.current?.setView(KOREA_CENTER, DEFAULT_ZOOM, { animate: true });
             }}
-            className="flex items-center gap-1.5 rounded-md bg-[#0d1220]/90 backdrop-blur border border-white/10 px-3 py-1.5 text-xs text-cyan-400 hover:bg-[#151c30] transition"
+            className="flex items-center gap-1.5 rounded-md bg-[#0d1220]/90 backdrop-blur border border-white/10 px-2 py-1.5 md:px-3 md:py-1.5 text-[10px] md:text-xs text-cyan-400 hover:bg-[#151c30] transition"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12h18M3 12l6-6M3 12l6 6" /></svg>
-            전체 지도 보기
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="md:w-[14px] md:h-[14px]"><path d="M3 12h18M3 12l6-6M3 12l6 6" /></svg>
+            <span className="hidden md:inline">전체 지도 보기</span>
+            <span className="md:hidden">전체</span>
           </button>
           {selectedDistrict && (
             <button
@@ -371,9 +427,9 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
                   }
                 }
               }}
-              className="flex items-center gap-1.5 rounded-md bg-[#0d1220]/90 backdrop-blur border border-cyan-500/20 px-3 py-1.5 text-xs text-cyan-300 hover:bg-[#151c30] transition"
+              className="flex items-center gap-1.5 rounded-md bg-[#0d1220]/90 backdrop-blur border border-cyan-500/20 px-2 py-1.5 md:px-3 md:py-1.5 text-[10px] md:text-xs text-cyan-300 hover:bg-[#151c30] transition"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12h18M3 12l6-6M3 12l6 6" /></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="md:w-[14px] md:h-[14px]"><path d="M3 12h18M3 12l6-6M3 12l6 6" /></svg>
               {selectedProvince.name} 전체
             </button>
           )}
@@ -382,17 +438,17 @@ export default function KoreaMap({ onProvinceSelect, onDistrictSelect, selectedP
 
       {/* Drill-down breadcrumb */}
       {selectedProvince && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-1 rounded-md bg-[#0d1220]/90 backdrop-blur border border-white/10 px-3 py-1.5 text-[11px]">
-          <span className="text-white/30">전국</span>
-          <span className="text-white/20">›</span>
-          <span className={selectedDistrict ? "text-white/50 cursor-pointer hover:text-white/70" : "text-cyan-400 font-medium"}
+        <div className="absolute top-2 md:top-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-1 rounded-md bg-[#0d1220]/90 backdrop-blur border border-white/10 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-[11px] shadow-lg">
+          <span className="text-white/30 truncate max-w-[40px] md:max-w-none">전국</span>
+          <span className="text-white/20">&rsaquo;</span>
+          <span className={selectedDistrict ? "text-white/50 cursor-pointer hover:text-white/70 truncate max-w-[60px] md:max-w-none" : "text-cyan-400 font-medium truncate"}
             onClick={() => { if (selectedDistrict) onDistrictSelect(null); }}>
             {selectedProvince.name}
           </span>
           {selectedDistrict && (
             <>
-              <span className="text-white/20">›</span>
-              <span className="text-cyan-400 font-medium">{selectedDistrict.name}</span>
+              <span className="text-white/20">&rsaquo;</span>
+              <span className="text-cyan-400 font-medium truncate max-w-[80px] md:max-w-none">{selectedDistrict.name}</span>
             </>
           )}
         </div>
