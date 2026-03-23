@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "@/lib/sidebar-context";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -13,7 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, Menu } from "lucide-react";
 
 const pageNames: Record<string, string> = {
   "/": "대시보드",
@@ -24,6 +25,7 @@ const pageNames: Record<string, string> = {
 
 export function Header() {
   const pathname = usePathname();
+  const { toggleMobile } = useSidebar();
   const currentPage = pageNames[pathname] ?? "페이지";
 
   const isMinisterPage = pathname.startsWith("/ministers/");
@@ -39,32 +41,43 @@ export function Header() {
       ];
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-6">
-      {/* Left: Breadcrumb */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          {breadcrumbSegments.map((segment, index) => {
-            const isLast = index === breadcrumbSegments.length - 1;
-            return (
-              <Fragment key={segment.label}>
-                {index > 0 && <BreadcrumbSeparator />}
-                <BreadcrumbItem>
-                  {isLast ? (
-                    <BreadcrumbPage>{segment.label}</BreadcrumbPage>
-                  ) : (
-                    <BreadcrumbLink href={segment.href ?? "/"}>
-                      {segment.label}
-                    </BreadcrumbLink>
-                  )}
-                </BreadcrumbItem>
-              </Fragment>
-            );
-          })}
-        </BreadcrumbList>
-      </Breadcrumb>
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-3 md:px-6">
+      {/* Left: Hamburger (mobile) + Breadcrumb */}
+      <div className="flex items-center gap-2">
+        {/* Mobile hamburger */}
+        <button
+          onClick={toggleMobile}
+          className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground md:hidden"
+          aria-label="메뉴 열기"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+
+        <Breadcrumb>
+          <BreadcrumbList>
+            {breadcrumbSegments.map((segment, index) => {
+              const isLast = index === breadcrumbSegments.length - 1;
+              return (
+                <Fragment key={segment.label}>
+                  {index > 0 && <BreadcrumbSeparator />}
+                  <BreadcrumbItem>
+                    {isLast ? (
+                      <BreadcrumbPage>{segment.label}</BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink href={segment.href ?? "/"}>
+                        {segment.label}
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </Fragment>
+              );
+            })}
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
 
       {/* Right: Search + Notification + Avatar */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
         {/* Search */}
         <div className="relative hidden md:block">
           <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
@@ -77,7 +90,7 @@ export function Header() {
 
         {/* Notification bell */}
         <button
-          className="relative flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          className="relative flex h-9 w-9 md:h-8 md:w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           aria-label="알림"
         >
           <Bell className="h-4 w-4" />

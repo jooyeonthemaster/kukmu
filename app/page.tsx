@@ -122,21 +122,21 @@ export default async function DashboardPage() {
       {/* Election banner */}
       <Link
         href="/local-election"
-        className="group relative flex items-center gap-4 overflow-hidden rounded-xl border border-red-500/20 bg-gradient-to-r from-red-950/40 via-slate-900/60 to-blue-950/40 p-4 transition-all hover:border-red-500/40 hover:shadow-lg hover:shadow-red-500/5"
+        className="group relative flex items-center gap-3 md:gap-4 overflow-hidden rounded-xl border border-red-500/20 bg-gradient-to-r from-red-950/40 via-slate-900/60 to-blue-950/40 p-3 md:p-4 transition-all hover:border-red-500/40 hover:shadow-lg hover:shadow-red-500/5"
       >
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-500/15">
-          <MapPin className="h-5 w-5 text-red-400" />
+        <div className="flex h-8 w-8 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-lg bg-red-500/15">
+          <MapPin className="h-4 w-4 md:h-5 md:w-5 text-red-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-white">제9회 전국동시지방선거 관제탑</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs md:text-sm font-bold text-white">제9회 전국동시지방선거 관제탑</span>
             <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-bold text-red-400 animate-pulse">LIVE</span>
           </div>
-          <p className="mt-0.5 text-xs text-white/50">
+          <p className="mt-0.5 text-[11px] md:text-xs text-white/50 truncate">
             17개 시·도 · 226개 시·군·구 단위 여론조사 · 후보 정보 · 지역 이슈 실시간 추적
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-1 text-xs font-medium text-white/40 group-hover:text-red-400 transition-colors">
+        <div className="hidden sm:flex shrink-0 items-center gap-1 text-xs font-medium text-white/40 group-hover:text-red-400 transition-colors">
           <span>관제탑 열기</span>
           <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </div>
@@ -171,7 +171,7 @@ export default async function DashboardPage() {
               {recentAgendas.map((agenda, index) => (
                 <div key={agenda.id}>
                   {index > 0 && <Separator className="my-2.5" />}
-                  <div className="flex items-start gap-3 py-1">
+                  <div className="flex items-start gap-2 md:gap-3 py-1">
                     {/* Status badge */}
                     <Badge
                       variant="outline"
@@ -185,17 +185,17 @@ export default async function DashboardPage() {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium leading-snug truncate">
+                      <p className="text-xs md:text-sm font-medium leading-snug truncate">
                         {agenda.title}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[11px] text-muted-foreground">
+                        <span className="text-[11px] text-muted-foreground truncate">
                           {agenda.ministry}
                         </span>
                         <span className="text-[11px] text-muted-foreground/50">
                           |
                         </span>
-                        <span className="font-data text-[11px] text-muted-foreground">
+                        <span className="font-data text-[11px] text-muted-foreground shrink-0">
                           {agenda.date}
                         </span>
                       </div>
@@ -204,7 +204,7 @@ export default async function DashboardPage() {
                     {/* Priority */}
                     <span
                       className={cn(
-                        "shrink-0 mt-0.5 rounded px-1.5 py-0.5 text-[10px] font-semibold",
+                        "hidden sm:inline shrink-0 mt-0.5 rounded px-1.5 py-0.5 text-[10px] font-semibold",
                         agenda.priority === "high" &&
                           "bg-destructive/10 text-destructive",
                         agenda.priority === "medium" &&

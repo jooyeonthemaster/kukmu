@@ -123,12 +123,22 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
   }
   html {
     @apply font-sans;
     font-feature-settings: "ss01", "ss02", "cv01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Prevent text from becoming vertical/unreadable on narrow screens */
+@layer utilities {
+  .break-anywhere {
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
 
